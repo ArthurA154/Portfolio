@@ -1,5 +1,5 @@
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const navItems = [
   { label: 'Start', href: '#top' },
@@ -99,8 +99,7 @@ const POSITIONING_TEXT = 'Business IT Focused on Frontend Systems, APIs, and Pra
 const QUOTE_TEXT = '"Clear systems. Clean execution."';
 
 export default function App() {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const { scrollY } = useScroll({ container: scrollRef });
+  const { scrollY } = useScroll();
   const smoothScrollY = useSpring(scrollY, {
     stiffness: 60,
     damping: 24,
@@ -157,25 +156,24 @@ export default function App() {
 
   return (
     <main
-      ref={scrollRef}
       id="top"
-      className="relative h-screen snap-y snap-proximity overflow-y-auto overflow-x-hidden scroll-smooth bg-[#070a12] text-slate-100"
+      className="relative min-h-screen w-full max-w-full overflow-x-clip scroll-smooth bg-[#070a12] text-slate-100"
     >
-      <motion.div className="pointer-events-none fixed inset-0" style={{ y: bgLayerOneY }}>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_14%,rgba(56,189,248,0.24),transparent_36%),radial-gradient(circle_at_82%_8%,rgba(37,99,235,0.18),transparent_34%),linear-gradient(180deg,#070a12_0%,#06070d_100%)]" />
+      <motion.div className="pointer-events-none fixed inset-0 overflow-hidden" style={{ y: bgLayerOneY }}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_14%,rgba(56,189,248,0.24),transparent_36%),radial-gradient(circle_at_82%_8%,rgba(37,99,235,0.18),transparent_34%),linear-gradient(180deg,#070a12_0%,#050912_70%,#04060b_100%)]" />
       </motion.div>
 
-      <motion.div className="pointer-events-none fixed inset-0" style={{ y: bgLayerTwoY }}>
+      <motion.div className="pointer-events-none fixed inset-0 overflow-hidden" style={{ y: bgLayerTwoY }}>
         <div className="absolute -left-24 top-1/3 h-[24rem] w-[24rem] rounded-full bg-cyan-400/12 blur-[120px]" />
         <div className="absolute -right-16 top-[15%] h-[22rem] w-[22rem] rounded-full bg-blue-500/14 blur-[115px]" />
       </motion.div>
 
-      <motion.div className="pointer-events-none fixed inset-0 grid-overlay opacity-[0.09]" style={{ y: gridLayerY }} />
+      <motion.div className="pointer-events-none fixed inset-0 overflow-hidden grid-overlay opacity-[0.09]" style={{ y: gridLayerY }} />
       <div className="pointer-events-none fixed inset-0 noise-overlay opacity-[0.05]" />
 
       <motion.section
         style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
-        className="relative z-10 mx-auto grid h-screen w-full snap-start items-center px-6 md:max-w-7xl md:px-10"
+        className="relative z-10 mx-auto grid min-h-screen w-full items-center px-6 md:max-w-7xl md:px-10"
       >
         <header className="absolute left-0 right-0 top-0 z-20">
           <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 md:px-10">
@@ -210,7 +208,7 @@ export default function App() {
             Personal Landing
           </motion.p>
 
-          <h1 className="text-6xl font-semibold leading-[0.95] text-slate-50 sm:text-7xl lg:text-8xl xl:text-[10rem]">
+          <h1 className="text-4xl font-semibold leading-[0.95] text-slate-50 sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl 2xl:text-8xl">
             {typedTitle}
             <motion.span
               aria-hidden="true"
@@ -224,7 +222,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: typedTitle.length >= TITLE_TEXT.length ? 1 : 0.4 }}
             transition={{ duration: 0.5 }}
-            className="mt-8 max-w-3xl text-xl text-slate-300/90 sm:text-2xl"
+            className="mt-6 max-w-3xl text-lg text-slate-300/90 sm:text-xl lg:text-2xl"
           >
             {typedPositioning}
           </motion.p>
@@ -233,7 +231,7 @@ export default function App() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: typedPositioning.length >= POSITIONING_TEXT.length ? 1 : 0, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15 }}
-            className="mt-10 text-base tracking-wide text-cyan-100/80 sm:text-lg"
+            className="mt-8 text-sm tracking-wide text-cyan-100/80 sm:text-base"
           >
             {QUOTE_TEXT}
           </motion.p>
@@ -254,7 +252,7 @@ export default function App() {
         </motion.div>
       </motion.section>
 
-      <section id="skills" className="relative z-10 mx-auto grid h-screen w-full snap-start items-center px-6 md:max-w-7xl md:px-10">
+      <section id="skills" className="relative z-10 mx-auto min-h-screen w-full px-6 py-14 md:max-w-7xl md:px-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -263,9 +261,9 @@ export default function App() {
           className="w-full"
         >
           <p className="text-sm uppercase tracking-[0.24em] text-cyan-100/70">Skills</p>
-          <h2 className="mt-3 text-5xl font-semibold text-slate-50 sm:text-6xl lg:text-7xl">Skill Systems</h2>
+          <h2 className="mt-2 text-2xl font-semibold text-slate-50 sm:text-3xl lg:text-4xl">Skill Systems</h2>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {skillBlocks.map((group, index) => (
               <motion.article
                 key={group.title}
@@ -273,24 +271,24 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.55, delay: index * 0.08 }}
-                className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-cyan-300/[0.03] p-6 backdrop-blur-sm transition duration-300 hover:border-cyan-200/25 hover:shadow-[0_0_30px_rgba(56,189,248,0.12)]"
+                className="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-cyan-300/[0.03] p-4 backdrop-blur-sm transition duration-300 hover:border-cyan-200/25 hover:shadow-[0_0_30px_rgba(56,189,248,0.12)]"
               >
                 <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-cyan-300/10 blur-2xl" />
                 <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/65">{group.key}</p>
-                <h3 className="mt-2 text-2xl font-medium text-slate-50">{group.title}</h3>
-                <div className="mt-5 grid grid-cols-2 gap-5">
+                <h3 className="mt-2 text-lg font-medium text-slate-50">{group.title}</h3>
+                <div className="mt-3 grid grid-cols-2 gap-3">
                   {group.items.map((item) => (
-                    <div key={item.name} className="group flex flex-col items-center gap-2">
+                    <div key={item.name} className="group flex flex-col items-center gap-1.5">
                       <div
-                        className={`relative flex h-24 w-24 items-center justify-center border border-white/20 bg-gradient-to-br ${item.accent ?? 'from-cyan-300/20 to-blue-700/10'} shadow-[0_0_22px_rgba(56,189,248,0.16)] transition duration-300 group-hover:-translate-y-1 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(56,189,248,0.26)] [clip-path:polygon(25%_6%,75%_6%,100%_50%,75%_94%,25%_94%,0_50%)]`}
+                        className={`relative flex h-16 w-16 items-center justify-center border border-white/20 bg-gradient-to-br ${item.accent ?? 'from-cyan-300/20 to-blue-700/10'} shadow-[0_0_22px_rgba(56,189,248,0.16)] transition duration-300 group-hover:-translate-y-1 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(56,189,248,0.26)] [clip-path:polygon(25%_6%,75%_6%,100%_50%,75%_94%,25%_94%,0_50%)]`}
                       >
                         {item.icon ? (
-                          <img src={item.icon} alt={item.name} className="h-10 w-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
+                          <img src={item.icon} alt={item.name} className="h-6 w-6 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
                         ) : (
                           <span className="text-sm font-semibold tracking-wide text-cyan-100">{item.name.slice(0, 3).toUpperCase()}</span>
                         )}
                       </div>
-                      <span className="text-xs font-medium text-slate-300">{item.name}</span>
+                      <span className="text-[11px] font-medium text-slate-300">{item.name}</span>
                     </div>
                   ))}
                 </div>
@@ -300,7 +298,7 @@ export default function App() {
         </motion.div>
       </section>
 
-      <section id="work" className="relative z-10 mx-auto grid h-screen w-full snap-start items-center px-6 md:max-w-7xl md:px-10">
+      <section id="work" className="relative z-10 mx-auto grid min-h-screen w-full items-center px-6 py-20 md:max-w-7xl md:px-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -309,7 +307,7 @@ export default function App() {
           className="w-full"
         >
           <p className="text-sm uppercase tracking-[0.24em] text-cyan-100/70">Builds & Experiments</p>
-          <h2 className="mt-3 text-4xl font-semibold text-slate-50 sm:text-5xl">Technical Work</h2>
+          <h2 className="mt-3 text-3xl font-semibold text-slate-50 sm:text-4xl">Technical Work</h2>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {technicalWork.map((item, index) => (
@@ -322,15 +320,15 @@ export default function App() {
                 className="rounded-2xl border border-white/10 bg-white/[0.03] p-6"
               >
                 <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-100/65">{item.label}</p>
-                <h3 className="mt-3 text-2xl font-medium text-slate-50">{item.title}</h3>
-                <p className="mt-3 text-base text-slate-300/85">{item.summary}</p>
+                <h3 className="mt-3 text-xl font-medium text-slate-50">{item.title}</h3>
+                <p className="mt-3 text-sm text-slate-300/85 sm:text-base">{item.summary}</p>
               </motion.article>
             ))}
           </div>
         </motion.div>
       </section>
 
-      <section id="contact" className="relative z-10 mx-auto grid h-screen w-full snap-start items-center px-6 md:max-w-7xl md:px-10">
+      <section id="contact" className="relative z-10 mx-auto grid min-h-screen w-full items-center px-6 py-20 md:max-w-7xl md:px-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -339,8 +337,8 @@ export default function App() {
           className="w-full max-w-3xl rounded-3xl border border-white/12 bg-gradient-to-br from-white/[0.05] to-cyan-300/[0.04] p-8 sm:p-10"
         >
           <p className="text-sm uppercase tracking-[0.24em] text-cyan-100/70">Contact</p>
-          <h2 className="mt-3 text-4xl font-semibold text-slate-50 sm:text-5xl">Let&apos;s Connect</h2>
-          <p className="mt-4 text-base text-slate-300/85 sm:text-lg">
+          <h2 className="mt-3 text-3xl font-semibold text-slate-50 sm:text-4xl">Let&apos;s Connect</h2>
+          <p className="mt-4 text-sm text-slate-300/85 sm:text-base">
             Open for conversations about practical engineering, frontend systems, and business-oriented tech work.
           </p>
 
